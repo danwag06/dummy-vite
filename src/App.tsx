@@ -2,12 +2,13 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { P2PKHAddress, PrivateKey, PublicKey } from "bsv-wasm-web";
+import init, { P2PKHAddress, PrivateKey, PublicKey } from "bsv-wasm-web";
 
 function App() {
   const [count, setCount] = useState(0);
 
-  const addressFromWif = (ordWif: string) => {
+  const addressFromWif = async (ordWif: string) => {
+    await init();
     const privKey = PrivateKey.from_wif(ordWif);
     const pk = PublicKey.from_private_key(privKey);
     return privKey && pk && ordWif && P2PKHAddress.from_pubkey(pk).to_string();
